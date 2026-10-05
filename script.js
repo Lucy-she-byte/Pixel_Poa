@@ -252,31 +252,38 @@ if ("IntersectionObserver" in window) {
 }
 let learnerName = "";
 let selectedTrack = "";
+const trackOptions = {
+  1: "Digital Foundations",
+  2: "Web Creators",
+  3: "Digital Ready",
+};
 
-document
-  .getElementById("welcomeBtn")
-  .addEventListener("click", function (event) {
+const welcomeButton = document.getElementById("welcomeBtn");
+
+if (welcomeButton) {
+  welcomeButton.addEventListener("click", function (event) {
+    event.preventDefault();
+
     learnerName = prompt("Welcome to Pixel Poa! What is your first name?");
+    const cleanName = learnerName ? learnerName.trim() : "";
 
-    if (learnerName && learnerName.trim() !== "") {
-      selectedTrack = prompt(
-        "Hello " +
-          learnerName +
-          "! Which track interests you?\n1. Digital Foundations\n2. Web Development\n3. Applied Digital Skills",
-      );
-
-      if (selectedTrack === "1") {
-        alert("Welcome to Digital Foundations, " + learnerName + "!");
-      } else if (selectedTrack === "2") {
-        alert("Welcome to Web Development, " + learnerName + "!");
-      } else if (selectedTrack === "3") {
-        alert("Welcome to Applied Digital Skills, " + learnerName + "!");
-      } else {
-        alert("Please select a valid track using 1, 2, or 3.");
-      }
-    } else {
+    if (!cleanName) {
       alert("Please enter your name to continue.");
+      return;
     }
 
-    event.preventDefault();
+    learnerName = cleanName;
+    selectedTrack = prompt(
+      `Hello ${learnerName}! Which track interests you?\n1. Digital Foundations\n2. Web Creators\n3. Digital Ready`,
+    );
+    const normalizedTrack = selectedTrack ? selectedTrack.trim() : "";
+    const trackLabel = trackOptions[normalizedTrack];
+
+    if (trackLabel) {
+      selectedTrack = trackLabel;
+      alert(`Welcome to ${trackLabel}, ${learnerName}!`);
+    } else {
+      alert("Please select a valid track using 1, 2, or 3.");
+    }
   });
+}
